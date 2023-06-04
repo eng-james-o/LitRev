@@ -41,14 +41,14 @@ Rectangle {
         id: minbtn
         anchors.right: maxbtn.left
         anchors.verticalCenter: parent.verticalCenter
-        btnIconSource: "../png/bar.svg"
+        btnIconSource: "../svg/bar.svg"
         onClicked: {root.minimizeClicked()}
     }
     AppBarButton {
         id: maxbtn
         anchors.right: exitbtn.left
         anchors.verticalCenter: parent.verticalCenter
-        btnIconSource: "../png/roundsquare.svg"
+        btnIconSource: "../svg/roundsquare.svg"
         onClicked: {root.maximizeClicked()}
     }
     AppBarButton {
@@ -58,7 +58,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.rightMargin: 5
         anchors.verticalCenter: parent.verticalCenter
-        btnIconSource: "../png/exit.svg"
+        btnIconSource: "../svg/exit.svg"
         onClicked: {root.exitClicked()}
     }
 

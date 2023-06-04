@@ -63,7 +63,7 @@ Window {
                     }
 
                     icon {
-                        source: "./png/hamburger.svg"
+                        source: "./svg/hamburger.svg"
                     }
                     display: AbstractButton.IconOnly
                     background: Rectangle {

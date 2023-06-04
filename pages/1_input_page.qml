@@ -25,7 +25,7 @@ Item {
             height: 30
             width: 30
 
-            btnIconSource: "../png/plus.svg"
+            btnIconSource: "../svg/plus.svg"
             btnOverlayColor: "white"
 
             anchors {

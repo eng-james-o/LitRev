@@ -1,0 +1,21 @@
+splash screen
+
+screen 1: research questions, user inputs
+	options: save progress, load saved progress
+
+screen 2: review search query and parameters
+	review publication corpus
+	options:save progress, load saved prorgess
+
+screen 3: view retrieved metadata
+	final article selection
+	additional features:
+		automatically save all information if closed
+
+screen 4: literature review and fine tuning
+	additional features:
+		edit document
+		suggest images to include
+		export literature review
+		export query, other metadata
+		*final AI review (we must human-review to train reviewer)

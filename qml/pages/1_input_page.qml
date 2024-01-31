@@ -25,7 +25,7 @@ Item {
             height: 30
             width: 30
 
-            btnIconSource: "../svg/plus.svg"
+            btnIconSource: "../../resources/svg/plus.svg"
             btnOverlayColor: "white"
 
             anchors {
@@ -53,6 +53,12 @@ Item {
         placeholderText: qsTr("Keywords")
         bg_bottom_color: "white"
 
+    }
+
+    TextArea {
+        id: textArea
+
+        placeholderText: qsTr("Text Area")
     }
 
 }

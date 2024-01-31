@@ -9,7 +9,7 @@ TextField {
 
     width: 280; height: 47
     color: "#fafaff"
-    placeholderTextColor: "#60101010"
+    placeholderTextColor: "#aabbaa10"
     padding: 8
     font.pointSize: 14
 

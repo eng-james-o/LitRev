@@ -1,3 +1,4 @@
 # LitRev
 
-A software for automated literature reviews using ChatGPT
+A software for creating automated literature reviews using ChatGPT. It automatically crafts search queries and parameters using your research questions, which you can view and adjust optionally. Then it suggests and selects publication corpus which might contain relevant articles using keywords from the search query. Optionally, you can add or remove certain publication corpus from the search. Then it searches through the selected publication corpus using those queries and retrieves article metadata (and document where possible) and abstract and conclusions where possible. the app allows you to see all the articles and review what articles you would want to include in the review. It then creates a review using the selected articles following a defined literature review methodology which you can choose among research methodology options.
+the final review can be edited in an integrated word document editor. it also suggests places where figures and images should be inserted and allows you to export the literature review to docx and other document formats.

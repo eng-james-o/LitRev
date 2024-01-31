@@ -2,6 +2,7 @@ import QtQuick 2.14
 import QtQuick.Window 2.14
 import QtQuick.Controls 2.14
 import "./components"
+import "."
 
 Window {
     id: mainwindow
@@ -21,6 +22,22 @@ Window {
         anchors.margins: 10
         clip: true
 
+        MouseArea {
+            id: resizeLeft
+            width: 12
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 15
+            anchors.leftMargin: 0
+            anchors.topMargin: 10
+            cursorShape: Qt.SizeHorCursor
+            DragHandler{
+                target: null
+                onActiveChanged: if (active) { mainwindow.startSystemResize(Qt.LeftEdge) }
+            }
+        }
+
         AppBar {
             id: appbar
             anchors.top: parent.top
@@ -31,6 +48,29 @@ Window {
             DragHandler {
                 onActiveChanged: if(active){mainwindow.startSystemMove()}}
         }
+        Button {
+            id: menu_btn
+
+            width: 50; height: 30
+            anchors {
+                left: parent.left; leftMargin:5
+                top: appbar.top; topMargin: 5
+            }
+
+            icon {
+                source: "../resources/svg/hamburger.svg"
+            }
+            display: AbstractButton.IconOnly
+            background: Rectangle {
+                width: parent.width
+                height: parent.height
+                color: menu_btn.down?"#202050":"transparent"
+            }
+
+            onClicked: {
+                menuframe.state = (menuframe.state=="opened"?"closed":"opened")
+            }
+        }
 
         Item {
             id: mainframe
@@ -38,6 +78,7 @@ Window {
                 top: appbar.bottom; bottom: parent.bottom
                 left: parent.left; right: parent.right
             }
+
 
             Item {
                 id: menuframe
@@ -53,29 +94,7 @@ Window {
                     anchors.fill: parent
                 }
 
-                Button {
-                    id: menu_btn
 
-                    width: 50; height: 30
-                    anchors {
-                        left: parent.left; leftMargin:5
-                        top: parent.top; topMargin: -30
-                    }
-
-                    icon {
-                        source: "./svg/hamburger.svg"
-                    }
-                    display: AbstractButton.IconOnly
-                    background: Rectangle {
-                        width: parent.width
-                        height: parent.height
-                        color: menu_btn.down?"#202050":"transparent"
-                    }
-
-                    onClicked: {
-                        menuframe.state = (menuframe.state=="opened"?"closed":"opened")
-                    }
-                }
                 states:[
                     State {
                         name: "closed"
@@ -127,19 +146,10 @@ Window {
                     top: mainframe.top; bottom: mainframe.bottom
                 }
                 Loader {
-                    source: "./pages/1_input_page.qml"
+                    source: "pages/1_input_page.qml"
                 }
             }
 
         }
     }
 }
-
-
-
-/*##^##
-Designer {
-    D{i:0;formeditorZoom:0.5}
-}
-##^##*/
-

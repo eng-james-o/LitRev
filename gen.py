@@ -10,8 +10,6 @@ This application automates the literature review process by:
 Built with PySide2 and QML
 """
 
-## Explore a RAG-based approach 
-
 import sys
 import os
 import json
@@ -787,3 +785,129 @@ class ProjectController(QObject):
                             exists = True
                             break
                         elif article.title
+                    if not exists:
+                        self.current_project.articles.append(article)
+                
+                self.saveProject()
+                self.articlesChanged.emit()
+        except Exception as e:
+            logger.error(f"Error searching articles: {e}")
+            self.errorOccurred.emit(f"Failed to search articles: {str(e)}")
+    
+    @Slot(result=str)
+    def getArticlesJson(self):
+        return json.dumps([article.to_dict() for article in self.current_project.articles])
+    
+    @Slot(int, bool)
+    def setArticleSelected(self, index, selected):
+        if 0 <= index < len(self.current_project.articles):
+            self.current_project.articles[index].selected = selected
+            if selected:
+                article = self.current_project.articles[index]
+                if article not in self.current_project.selected_articles:
+                    self.current_project.selected_articles.append(article)
+            else:
+                article = self.current_project.articles[index]
+                if article in self.current_project.selected_articles:
+                    self.current_project.selected_articles.remove(article)
+            self.saveProject()
+    
+    @Slot(int)
+    def retrieveFullText(self, index):
+        if 0 <= index < len(self.current_project.articles):
+            article = self.current_project.articles[index]
+            success = self.article_retriever.retrieve_full_text(article)
+            if success:
+                self.saveProject()
+                self.articlesChanged.emit()
+    
+    @Slot(str)
+    def setReviewMethodology(self, methodology):
+        self.current_project.review_methodology = methodology
+        self.saveProject()
+    
+    @Slot()
+    def generateReview(self):
+        try:
+            questions = "\n".join(self.current_project.research_questions)
+            review_content = self.chatgpt_service.generate_literature_review(
+                questions, 
+                self.current_project.selected_articles,
+                self.current_project.review_methodology
+            )
+            self.current_project.review_content = review_content
+            self.saveProject()
+            self.reviewContentChanged.emit()
+        except Exception as e:
+            logger.error(f"Error generating review: {e}")
+            self.errorOccurred.emit(f"Failed to generate review: {str(e)}")
+    
+    @Slot(str)
+    def setReviewContent(self, content):
+        self.current_project.review_content = content
+        if not self._is_loading:
+            self.saveProject()
+    
+    @Slot(result=str)
+    def getReviewContent(self):
+        return self.current_project.review_content
+    
+    @Slot(str, str)
+    def exportReview(self, format_type, file_path):
+        try:
+            success = False
+            if format_type == "docx":
+                success = self.doc_exporter.export_docx(self.current_project.review_content, file_path)
+            elif format_type == "txt":
+                success = self.doc_exporter.export_text(self.current_project.review_content, file_path)
+            elif format_type == "md":
+                success = self.doc_exporter.export_markdown(self.current_project.review_content, file_path)
+            
+            if not success:
+                self.errorOccurred.emit(f"Failed to export to {format_type}")
+        except Exception as e:
+            logger.error(f"Error exporting review: {e}")
+            self.errorOccurred.emit(f"Failed to export review: {str(e)}")
+    
+    # Property getters for QML binding
+    @Property(str, notify=projectLoaded)
+    def projectName(self):
+        return self.current_project.name
+    
+    @Property(str, notify=projectLoaded)
+    def projectPath(self):
+        return self.current_project.path
+    
+    @Property(str, notify=projectLoaded)
+    def reviewMethodology(self):
+        return self.current_project.review_methodology
+
+class SettingsController(QObject):
+    apiKeyChanged = Signal()
+    configChanged = Signal()
+    
+    def __init__(self, config_manager, chatgpt_service):
+        super().__init__()
+        self.config_manager = config_manager
+        self.chatgpt_service = chatgpt_service
+    
+    @Slot(str)
+    def setApiKey(self, api_key):
+        self.chatgpt_service.update_api_key(api_key)
+        self.apiKeyChanged.emit()
+    
+    @Slot(result=str)
+    def getApiKey(self):
+        return self.config_manager.get_api_key()
+    
+    @Slot(result=str)
+    def getRecentProjectsJson(self):
+        return json.dumps(self.config_manager.config.get("recent_projects", []))
+    
+    @Slot(result=str)
+    def getPublicationDatabasesJson(self):
+        return json.dumps(self.config_manager.config.get("publication_databases", []))
+    
+    @Slot(result=str)
+    def getReviewMethodologiesJson(self):
+        return json.dumps(self.config_manager.config.get("review_methodologies", []))

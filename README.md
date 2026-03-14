@@ -5,7 +5,7 @@
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 - **Smart Query Generation**  
   Automatically generates precise and domain-specific search queries from your research question using advanced language models.
@@ -30,7 +30,7 @@
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Installation
 
@@ -73,7 +73,7 @@ python litrev/main.py
 
 ---
 
-## 🧩 Project Structure (Planned)
+## Project Structure (Planned)
 
 ```text
 LitRev/
@@ -91,7 +91,7 @@ LitRev/
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - Python 3.10+
 - OpenAI GPT (via API)
@@ -101,7 +101,7 @@ LitRev/
 
 ---
 
-## 📚 Use Cases
+## Use Cases
 
 - Academic researchers preparing literature reviews for publications
 - Graduate students writing theses or dissertations
@@ -110,7 +110,7 @@ LitRev/
 
 ---
 
-## 📈 Roadmap
+## Roadmap
 
 - [x] Initial CLI prototype
 - [ ] Implement multi-source article retrieval
@@ -122,11 +122,11 @@ LitRev/
 
 ---
 
-## 🤝 Contribution
+## Contribution
 
 Contributions, issues, and feature requests are welcome.
 Feel free to check the [issues page](https://github.com/eng-james-o/LitRev/issues).
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

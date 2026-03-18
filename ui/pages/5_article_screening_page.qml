@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import components
+import Style
 
 Item {
     id: articleScreeningPage

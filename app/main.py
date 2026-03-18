@@ -5,7 +5,8 @@ from pathlib import Path
 
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtQuickControls2 import QQuickStyle
-from PySide6.QtQml import QQmlApplicationEngine
+from PySide6.QtQml import QQmlApplicationEngine, qmlRegisterSingletonInstance, qmlRegisterSingletonType
+from PySide6.QtCore import QUrl
 
 from app.config import ConfigManager
 from app.ai import ChatGPTService
@@ -42,6 +43,14 @@ def main():
     # Load QML
     ui_dir = Path(__file__).resolve().parent.parent / "ui"
     engine.addImportPath(os.fspath(ui_dir))
+
+    # register the Style.qml file as a singleton instance
+    style_qml_path = os.fspath(ui_dir / "Style.qml")
+    style_url = QUrl.fromLocalFile(os.fspath(ui_dir / "Style.qml"))
+    # qmlRegisterSingletonInstance("App", 1, 0, "Style", style_qml_path)
+    # Register: (Url, ModuleName, MajorVersion, MinorVersion, TypeName)
+    qmlRegisterSingletonType(style_url, "Style", 1, 0, "Style")
+
     qml_path = os.fspath(ui_dir / "main.qml")
     engine.load(qml_path)
 

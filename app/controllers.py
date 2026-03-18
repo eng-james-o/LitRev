@@ -1,8 +1,8 @@
 import json
 import logging
 from PySide6.QtCore import QObject, Signal, Slot, Property
-from .config import logger
 from .models import Project, Article
+from .config import logger
 
 class ProjectController(QObject):
     projectLoaded = Signal()
@@ -23,9 +23,9 @@ class ProjectController(QObject):
         self._is_loading = False
 
     @Slot(str, str)
-    def createNewProject(self, name, path):
+    def createProject(self, name, path):
         try:
-            self.current_project = Project(name=name, path=path)
+            self.current_project = Project(name, path)
             self.current_project.save()
             self.config_manager.add_recent_project(path)
             self.projectLoaded.emit()
@@ -142,15 +142,16 @@ class ProjectController(QObject):
                 query = self.current_project.search_queries[index]["query"]
                 results = self.article_retriever.search_articles(query, self.current_project.selected_databases)
 
-                # Add new articles to the project
+                # Add new articles to the project with robust deduplication
                 for article in results:
-                    # Check if article already exists (by DOI or title)
                     exists = False
                     for existing in self.current_project.articles:
-                        if article.doi and article.doi == existing.doi:
+                        # Primary deduplication by DOI
+                        if article.doi and existing.doi and article.doi.lower() == existing.doi.lower():
                             exists = True
                             break
-                        elif article.title == existing.title:
+                        # Secondary deduplication by Title (fuzzy match would be better, but simple equality for now)
+                        if article.title.lower().strip() == existing.title.lower().strip():
                             exists = True
                             break
                     if not exists:
@@ -170,14 +171,21 @@ class ProjectController(QObject):
     def setArticleSelected(self, index, selected):
         if 0 <= index < len(self.current_project.articles):
             self.current_project.articles[index].selected = selected
-            if selected:
-                article = self.current_project.articles[index]
-                if article not in self.current_project.selected_articles:
-                    self.current_project.selected_articles.append(article)
-            else:
-                article = self.current_project.articles[index]
-                if article in self.current_project.selected_articles:
-                    self.current_project.selected_articles.remove(article)
+            article = self.current_project.articles[index]
+
+            # Use DOI/Title for membership check in selected_articles
+            in_selected = False
+            for i, sel in enumerate(self.current_project.selected_articles):
+                if (article.doi and sel.doi and article.doi.lower() == sel.doi.lower()) or \
+                   (article.title.lower().strip() == sel.title.lower().strip()):
+                    in_selected = True
+                    if not selected:
+                        del self.current_project.selected_articles[i]
+                    break
+
+            if selected and not in_selected:
+                self.current_project.selected_articles.append(article)
+
             self.saveProject()
 
     @Slot(int)

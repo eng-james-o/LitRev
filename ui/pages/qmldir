@@ -1,0 +1,8 @@
+module pages
+InputPage 1.0 1_input_page.qml
+QueryGenerationPage 1.0 2_query_generation_page.qml
+CorpusSelectionPage 1.0 3_corpus_selection_page.qml
+SearchRetrievalPage 1.0 4_search_retrieval_page.qml
+ArticleScreeningPage 1.0 5_article_screening_page.qml
+ReviewGenerationPage 1.0 6_review_generation_page.qml
+EditorExportPage 1.0 7_editor_export_page.qml

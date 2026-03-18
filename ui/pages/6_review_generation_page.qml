@@ -1,10 +1,12 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick 
+import QtQuick.Controls 
 import QtQuick.Layouts 1.15
-import "../components"
+import components
 
 Item {
     id: reviewGenerationPage
+    signal nextRequested()
+    signal backRequested()
     width: 560
     height: 580
 
@@ -65,6 +67,21 @@ Item {
                     wrapMode: Text.Wrap
                     readOnly: true
                 }
+            }
+        }
+
+        RowLayout {
+            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignRight
+            spacing: 10
+
+            Button {
+                text: qsTr("Back")
+                onClicked: reviewGenerationPage.backRequested()
+            }
+            Button {
+                text: qsTr("Next")
+                onClicked: reviewGenerationPage.nextRequested()
             }
         }
     }

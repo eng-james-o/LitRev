@@ -1,8 +1,8 @@
 import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
-import "./components"
-import "."
+import components
+import pages
 
 Window {
     id: mainwindow
@@ -58,7 +58,7 @@ Window {
             }
 
             icon {
-                source: "../resources/svg/hamburger.svg"
+                source: "../assets/svg/hamburger.svg"
             }
             display: AbstractButton.IconOnly
             background: Rectangle {
@@ -79,6 +79,53 @@ Window {
                 left: parent.left; right: parent.right
             }
 
+            Component {
+                id: inputPageComponent
+                InputPage {
+                    onNextRequested: rightframe.push(queryGenerationPageComponent)
+                }
+            }
+            Component {
+                id: queryGenerationPageComponent
+                QueryGenerationPage {
+                    onBackRequested: rightframe.pop()
+                    onNextRequested: rightframe.push(corpusSelectionPageComponent)
+                }
+            }
+            Component {
+                id: corpusSelectionPageComponent
+                CorpusSelectionPage {
+                    onBackRequested: rightframe.pop()
+                    onNextRequested: rightframe.push(searchRetrievalPageComponent)
+                }
+            }
+            Component {
+                id: searchRetrievalPageComponent
+                SearchRetrievalPage {
+                    onBackRequested: rightframe.pop()
+                    onNextRequested: rightframe.push(articleScreeningPageComponent)
+                }
+            }
+            Component {
+                id: articleScreeningPageComponent
+                ArticleScreeningPage {
+                    onBackRequested: rightframe.pop()
+                    onNextRequested: rightframe.push(reviewGenerationPageComponent)
+                }
+            }
+            Component {
+                id: reviewGenerationPageComponent
+                ReviewGenerationPage {
+                    onBackRequested: rightframe.pop()
+                    onNextRequested: rightframe.push(editorExportPageComponent)
+                }
+            }
+            Component {
+                id: editorExportPageComponent
+                EditorExportPage {
+                    onBackRequested: rightframe.pop()
+                }
+            }
 
             Item {
                 id: menuframe
@@ -145,9 +192,7 @@ Window {
                     left: menuframe.right; right: mainframe.right
                     top: mainframe.top; bottom: mainframe.bottom
                 }
-                Loader {
-                    source: "pages/1_input_page.qml"
-                }
+                initialItem: inputPageComponent
             }
 
         }

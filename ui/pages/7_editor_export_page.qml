@@ -1,10 +1,12 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
-import "../components"
+import QtQuick 
+import QtQuick.Controls 
+import QtQuick.Layouts 
+import components
 
 Item {
     id: editorExportPage
+    signal nextRequested()
+    signal backRequested()
     width: 560
     height: 580
 
@@ -48,6 +50,17 @@ Item {
             Button {
                 text: qsTr("Export as Markdown")
                 onClicked: projectController.exportReview("md", "review_export.md")
+            }
+        }
+
+        RowLayout {
+            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignRight
+            spacing: 10
+
+            Button {
+                text: qsTr("Back")
+                onClicked: editorExportPage.backRequested()
             }
         }
     }

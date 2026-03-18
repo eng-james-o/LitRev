@@ -1,10 +1,12 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
-import "../components"
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import components
 
 Item {
     id: item1
+    signal nextRequested()
+    signal backRequested()
 
     width: 560
     height: 580
@@ -25,7 +27,7 @@ Item {
             height: 30
             width: 30
 
-            btnIconSource: "../../resources/svg/plus.svg"
+            btnIconSource: "../../assets/svg/plus.svg"
             btnOverlayColor: "white"
 
             anchors {
@@ -57,10 +59,22 @@ Item {
 
     TextArea {
         id: textArea
-
         placeholderText: qsTr("Text Area")
     }
 
+    Row {
+        id: navRow
+        spacing: 10
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.rightMargin: 20
+        anchors.bottomMargin: 20
+
+        Button {
+            text: qsTr("Next")
+            onClicked: item1.nextRequested()
+        }
+    }
 }
 
 /*##^##

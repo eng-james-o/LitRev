@@ -1,0 +1,6 @@
+module components
+AppBar 1.0 AppBar.qml
+AppBarButton 1.0 AppBarButton.qml
+CustomRangeSlider 1.0 CustomRangeSlider.qml
+CustomTextField 1.0 CustomTextField.qml
+IconButton 1.0 IconButton.qml

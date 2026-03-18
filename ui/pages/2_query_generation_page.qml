@@ -1,10 +1,12 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick 
+import QtQuick.Controls 
 import QtQuick.Layouts 1.15
-import "../components"
+import components
 
 Item {
     id: queryGenerationPage
+    signal nextRequested()
+    signal backRequested()
     width: 560
     height: 580
 
@@ -59,6 +61,21 @@ Item {
             text: qsTr("Regenerate Queries")
             Layout.alignment: Qt.AlignRight
             onClicked: projectController.generateSearchQueries()
+        }
+
+        RowLayout {
+            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignRight
+            spacing: 10
+
+            Button {
+                text: qsTr("Back")
+                onClicked: queryGenerationPage.backRequested()
+            }
+            Button {
+                text: qsTr("Next")
+                onClicked: queryGenerationPage.nextRequested()
+            }
         }
     }
 }

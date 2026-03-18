@@ -77,16 +77,18 @@ python app/main.py
 
 ```text
 AutoLitRev/
-├── app/               # Core modules: AI, retrieval, writing
+├── app/                  # Core modules: AI, retrieval, writing
 ├── assets/               # SVG, Png, jpg assets
 ├── ui/                   # Graphical interface 
 ├── tests/                # Unit and integration tests
 ├── data/                 # Temporary data, cached articles
 ├── examples/             # Usage demos and workflows
-├── docs/                 # Developer & user documentation
+├── documentation/        # Developer & user documentation
+├── tests/                # Tests
 ├── requirements.txt
 ├── README.md
-└── setup.py
+├── TODO.md
+└── pyproject.toml
 ```
 
 ---

@@ -4,6 +4,7 @@ import sys
 from pathlib import Path
 
 from PySide6.QtGui import QGuiApplication
+from PySide6.QtQuickControls2 import QQuickStyle
 from PySide6.QtQml import QQmlApplicationEngine
 
 from app.config import ConfigManager
@@ -13,6 +14,8 @@ from app.writing import DocumentExporter
 from app.controllers import ProjectController, SettingsController
 
 def main():
+    # Use a non-native style so custom backgrounds are supported.
+    QQuickStyle.setStyle("Basic")
     app = QGuiApplication(sys.argv)
     engine = QQmlApplicationEngine()
 
@@ -37,12 +40,14 @@ def main():
     context.setContextProperty("settingsController", settings_controller)
 
     # Load QML
-    qml_path = os.fspath(Path(__file__).resolve().parent.parent / "ui" / "main.qml")
+    ui_dir = Path(__file__).resolve().parent.parent / "ui"
+    engine.addImportPath(os.fspath(ui_dir))
+    qml_path = os.fspath(ui_dir / "main.qml")
     engine.load(qml_path)
 
     if not engine.rootObjects():
         sys.exit(-1)
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
 
 if __name__ == "__main__":
     main()

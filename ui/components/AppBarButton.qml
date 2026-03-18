@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Controls
-import QtGraphicalEffects
+import QtQuick.Effects
 
 Button {
     id: control
@@ -42,11 +42,11 @@ Button {
             fillMode: Image.PreserveAspectFit
             antialiasing: false
         }
-        ColorOverlay{
+        MultiEffect {
             anchors.fill: iconBtn
             source: iconBtn
-            color: "#ffffff"
-            antialiasing: false
+            colorization: 1.0
+            colorizationColor: "#ffffff"
         }
     }
 }

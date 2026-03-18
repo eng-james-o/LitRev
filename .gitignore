@@ -72,11 +72,12 @@ Thumbs.db
 *.exe
 
 # User config files
-LitRev.pyproject.user
-LitRev_wireframe.xd
-LitRev.pyproject
+*.pyproject.user
+*.xd
+*.pyproject
 dir.txt
 features.txt
+*.log
 
 # Environment and python cache 
 .venv/

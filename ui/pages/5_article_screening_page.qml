@@ -1,74 +1,149 @@
-import QtQuick 
-import QtQuick.Controls 
-import QtQuick.Layouts 1.15
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 import components
 
 Item {
     id: articleScreeningPage
     signal nextRequested()
     signal backRequested()
-    width: 560
-    height: 580
+
+    width: 600
+    height: 600
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: 20
-        spacing: 10
+        anchors.margins: Style.spacingLarge
+        spacing: Style.spacingLarge
 
-        Label {
-            text: qsTr("Article Screening")
-            font.pixelSize: 20
-            font.bold: true
-            color: "white"
+        ColumnLayout {
+            spacing: Style.spacingSmall
+            Text {
+                text: qsTr("Screening & Selection")
+                color: Style.text
+                font.family: Style.fontFamily
+                font.pixelSize: Style.fontTitle
+                font.bold: true
+            }
+            Text {
+                text: qsTr("Review retrieved articles and determine inclusion based on your criteria. High-confidence AI suggestions are highlighted in blue.")
+                color: Style.secondaryText
+                font.family: Style.fontFamily
+                font.pixelSize: Style.fontBody
+            }
         }
 
-        ListView {
-            id: articleList
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: Style.spacingMedium
+            Repeater {
+                model: [
+                    { label: "TOTAL RETRIEVED", value: "1,240" },
+                    { label: "PENDING REVIEW", value: "850" },
+                    { label: "INCLUDED", value: "45" },
+                    { label: "EXCLUDED", value: "345" }
+                ]
+                delegate: Rectangle {
+                    Layout.fillWidth: true
+                    height: 60
+                    color: Style.surface
+                    radius: Style.radiusMedium
+                    border.color: Style.border
+                    ColumnLayout {
+                        anchors.centerIn: parent
+                        Text { text: modelData.label; color: Style.secondaryText; font.pixelSize: 8; font.bold: true }
+                        Text { text: modelData.value; color: Style.text; font.pixelSize: 16; font.bold: true }
+                    }
+                }
+            }
+        }
+
+        Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            clip: true
-            model: JSON.parse(projectController.getArticlesJson())
-            spacing: 5
-            delegate: Rectangle {
-                width: articleList.width
-                height: 100
-                color: modelData.selected ? "#404080" : "#303060"
-                radius: 5
+            color: Style.surface
+            radius: Style.radiusMedium
+            border.color: Style.border
+
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.margins: Style.spacingMedium
+                spacing: Style.spacingSmall
 
                 RowLayout {
-                    anchors.fill: parent
-                    anchors.margins: 10
+                    Layout.fillWidth: true
+                    Text { text: qsTr("ARTICLE DETAILS"); color: Style.secondaryText; font.pixelSize: 10; font.bold: true }
+                    Item { Layout.fillWidth: true }
+                    Text { text: qsTr("YEAR"); color: Style.secondaryText; font.pixelSize: 10; font.bold: true; Layout.preferredWidth: 40 }
+                    Text { text: qsTr("DATABASE"); color: Style.secondaryText; font.pixelSize: 10; font.bold: true; Layout.preferredWidth: 60 }
+                    Text { text: qsTr("AI CONFIDENCE"); color: Style.secondaryText; font.pixelSize: 10; font.bold: true; Layout.preferredWidth: 80 }
+                }
 
-                    CheckBox {
-                        checked: modelData.selected
-                        onCheckedChanged: projectController.setArticleSelected(index, checked)
-                    }
+                ListView {
+                    id: articleList
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    clip: true
+                    spacing: Style.spacingSmall
+                    model: JSON.parse(projectController.getArticlesJson())
+                    delegate: Rectangle {
+                        width: articleList.width
+                        height: 70
+                        color: modelData.selected ? Style.accent : Style.windowBackground
+                        opacity: modelData.selected ? 0.9 : 1.0
+                        radius: Style.radiusSmall
 
-                    ColumnLayout {
-                        Layout.fillWidth: true
-                        Text {
-                            text: modelData.title
-                            color: "white"
-                            font.bold: true
-                            Layout.fillWidth: true
-                            elide: Text.ElideRight
-                        }
-                        Text {
-                            text: modelData.authors.join(", ") + " (" + modelData.year + ")"
-                            color: "#bbbbbb"
-                            font.pixelSize: 12
-                        }
-                        Text {
-                            text: modelData.source_db
-                            color: "#8888ff"
-                            font.pixelSize: 11
-                        }
-                    }
+                        RowLayout {
+                            anchors.fill: parent
+                            anchors.margins: Style.spacingSmall
+                            spacing: Style.spacingMedium
 
-                    Button {
-                        text: "Full Text"
-                        visible: !modelData.full_text
-                        onClicked: projectController.retrieveFullText(index)
+                            CheckBox {
+                                checked: modelData.selected
+                                onCheckedChanged: projectController.setArticleSelected(index, checked)
+                            }
+
+                            ColumnLayout {
+                                Layout.fillWidth: true
+                                spacing: 2
+                                Text {
+                                    text: modelData.title
+                                    color: Style.text
+                                    font.bold: true
+                                    font.pixelSize: Style.fontBody
+                                    elide: Text.ElideRight
+                                    Layout.fillWidth: true
+                                }
+                                Text {
+                                    text: modelData.authors.join(", ")
+                                    color: Style.secondaryText
+                                    font.pixelSize: Style.fontSmall
+                                    elide: Text.ElideRight
+                                    Layout.fillWidth: true
+                                }
+                            }
+
+                            Text {
+                                text: modelData.year
+                                color: Style.text
+                                font.pixelSize: Style.fontSmall
+                                Layout.preferredWidth: 40
+                            }
+
+                            Rectangle {
+                                Layout.preferredWidth: 60; height: 18; radius: 4; color: Style.surface
+                                Text { anchors.centerIn: parent; text: modelData.source_db; color: Style.accent; font.pixelSize: 9; font.bold: true }
+                            }
+
+                            ProgressBar {
+                                Layout.preferredWidth: 80
+                                value: Math.random() // Placeholder AI confidence
+                                background: Rectangle { implicitHeight: 4; color: Style.surface; radius: 2 }
+                                contentItem: Item {
+                                    Rectangle { width: parent.parent.visualPosition * parent.width; height: 4; radius: 2; color: Style.success }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -76,16 +151,25 @@ Item {
 
         RowLayout {
             Layout.fillWidth: true
-            Layout.alignment: Qt.AlignRight
-            spacing: 10
+            spacing: Style.spacingMedium
 
             Button {
-                text: qsTr("Back")
+                text: qsTr("← Back to Retrieval")
                 onClicked: articleScreeningPage.backRequested()
+                contentItem: Text { text: parent.text; font.family: Style.fontFamily; color: Style.secondaryText }
+                background: Rectangle { color: "transparent" }
             }
+
+            Item { Layout.fillWidth: true }
+
             Button {
-                text: qsTr("Next")
+                text: qsTr("Next: Generate Review →")
                 onClicked: articleScreeningPage.nextRequested()
+                contentItem: Text {
+                    text: parent.text; font.family: Style.fontFamily; font.bold: true; color: Style.text
+                    horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
+                }
+                background: Rectangle { implicitWidth: 180; implicitHeight: 40; color: Style.accent; radius: Style.radiusSmall }
             }
         }
     }

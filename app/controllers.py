@@ -1,6 +1,6 @@
 import json
 import logging
-from PySide2.QtCore import QObject, Signal, Slot, Property
+from PySide6.QtCore import QObject, Signal, Slot, Property
 from .config import logger
 from .models import Project, Article
 

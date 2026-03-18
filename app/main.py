@@ -3,14 +3,14 @@ import os
 import sys
 from pathlib import Path
 
-from PySide2.QtGui import QGuiApplication
-from PySide2.QtQml import QQmlApplicationEngine
+from PySide6.QtGui import QGuiApplication
+from PySide6.QtQml import QQmlApplicationEngine
 
-from litrev.config import ConfigManager
-from litrev.ai import ChatGPTService
-from litrev.retrieval import ArticleRetriever
-from litrev.writing import DocumentExporter
-from litrev.controllers import ProjectController, SettingsController
+from app.config import ConfigManager
+from app.ai import ChatGPTService
+from app.retrieval import ArticleRetriever
+from app.writing import DocumentExporter
+from app.controllers import ProjectController, SettingsController
 
 def main():
     app = QGuiApplication(sys.argv)

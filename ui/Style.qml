@@ -1,5 +1,5 @@
 pragma Singleton
-import QtQuick 2.0
+import QtQuick
 QtObject {
     property color text: "#000000"
     property color windowBackground: "#eff0f1"

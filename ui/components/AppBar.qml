@@ -1,6 +1,6 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 Rectangle {
     id: root
@@ -28,7 +28,7 @@ Rectangle {
 
         color: "#75bbf3"
         Label {
-            text: "LitRev"
+            text: "AutoLitRev"
             styleColor: "#000d34"
             font.styleName: "Bold"
             font.pointSize: 16

@@ -1,7 +1,7 @@
 
-# LitRev
+# AutoLitRev
 
-**LitRev** is an AI-powered software for automating and streamlining the literature review process using ChatGPT. It helps researchers generate high-quality reviews by assisting with search query formulation, article retrieval, content analysis, and structured report generation — all in one workflow.
+**AutoLitRev** is an AI-powered software for automating and streamlining the literature review process using ChatGPT. It helps researchers generate high-quality reviews by assisting with search query formulation, article retrieval, content analysis, and structured report generation — all in one workflow.
 
 ---
 
@@ -35,15 +35,15 @@
 ### Installation
 
 ```bash
-git clone https://github.com/eng-james-o/LitRev.git
-cd LitRev
+git clone https://github.com/eng-james-o/AutoLitRev.git
+cd AutoLitRev
 pip install -r requirements.txt
 ````
 
 ### Running the App
 
 ```bash
-python litrev/main.py
+python app/main.py
 ```
 
 ---
@@ -57,7 +57,7 @@ python litrev/main.py
    The system crafts optimized search queries using ChatGPT.
 
 3. **Corpus Suggestion & Customization**
-   LitRev suggests appropriate journals and databases. Users can modify the corpus.
+   AutoLitRev suggests appropriate journals and databases. Users can modify the corpus.
 
 4. **Article Search & Retrieval**
    Articles are fetched from APIs (e.g., PubMed, ArXiv, CrossRef) with metadata, abstracts, and full texts where possible.
@@ -76,8 +76,8 @@ python litrev/main.py
 ## Project Structure (Planned)
 
 ```text
-LitRev/
-├── litrev/               # Core modules: AI, retrieval, writing
+AutoLitRev/
+├── app/               # Core modules: AI, retrieval, writing
 ├── assets/               # SVG, Png, jpg assets
 ├── ui/                   # Graphical interface 
 ├── tests/                # Unit and integration tests
@@ -97,7 +97,7 @@ LitRev/
 - OpenAI GPT (via API)
 - Requests, Pandas, Langchain
 - `python-docx` or similar for document generation
-- PySide2 QML for GUI
+- PySide6 QML for GUI
 
 ---
 
@@ -125,7 +125,7 @@ LitRev/
 ## Contribution
 
 Contributions, issues, and feature requests are welcome.
-Feel free to check the [issues page](https://github.com/eng-james-o/LitRev/issues).
+Feel free to check the [issues page](https://github.com/eng-james-o/AutoLitRev/issues).
 
 ## License
 

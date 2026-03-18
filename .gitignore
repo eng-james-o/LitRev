@@ -71,8 +71,14 @@ Thumbs.db
 *.dll
 *.exe
 
+# User config files
 LitRev.pyproject.user
 LitRev_wireframe.xd
 LitRev.pyproject
 dir.txt
 features.txt
+
+# Environment and python cache 
+.venv/
+__pycache__/
+*.egg-info/

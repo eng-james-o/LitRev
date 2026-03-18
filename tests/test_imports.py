@@ -6,26 +6,26 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 class TestImports(unittest.TestCase):
-    def test_litrev_core_imports(self):
+    def test_app_core_imports(self):
         try:
-            import litrev.config
-            import litrev.models
-            import litrev.ai
-            import litrev.retrieval
-            import litrev.writing
+            import app.config
+            import app.models
+            import app.ai
+            import app.retrieval
+            import app.writing
             print("Core modules imported successfully")
         except ImportError as e:
             self.fail(f"Core import failed: {e}")
 
-    def test_litrev_pyside2_imports(self):
+    def test_app_pyside6_imports(self):
         # We expect this might fail with Segfault in this environment
         # but we want to check for ImportErrors specifically
         try:
-            import litrev.controllers
-            import litrev.main
-            print("PySide2 modules imported successfully")
+            import app.controllers
+            import app.main
+            print("PySide6 modules imported successfully")
         except ImportError as e:
-            self.fail(f"PySide2 import failed: {e}")
+            self.fail(f"PySide6 import failed: {e}")
 
 if __name__ == '__main__':
     unittest.main()

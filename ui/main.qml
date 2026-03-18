@@ -6,18 +6,18 @@ import pages
 
 Window {
     id: mainwindow
-    width: 640
-    height: 640
+    width: 1024
+    height: 768
     visible: true
     color: "#00000000"
     flags: "FramelessWindowHint"
 
     Rectangle {
         id: bgwindow
-        color: "#484866"
-        radius: 10
-        border.color: "#33334c"
-        border.width: 3
+        color: Style.windowBackground
+        radius: Style.radiusMedium
+        border.color: Style.border
+        border.width: 1
         anchors.fill: parent
         anchors.margins: 10
         clip: true
@@ -47,29 +47,6 @@ Window {
             onExitClicked: Qt.quit()
             DragHandler {
                 onActiveChanged: if(active){mainwindow.startSystemMove()}}
-        }
-        Button {
-            id: menu_btn
-
-            width: 50; height: 30
-            anchors {
-                left: parent.left; leftMargin:5
-                top: appbar.top; topMargin: 5
-            }
-
-            icon {
-                source: "../assets/svg/hamburger.svg"
-            }
-            display: AbstractButton.IconOnly
-            background: Rectangle {
-                width: parent.width
-                height: parent.height
-                color: menu_btn.down?"#202050":"transparent"
-            }
-
-            onClicked: {
-                menuframe.state = (menuframe.state=="opened"?"closed":"opened")
-            }
         }
 
         Item {
@@ -127,20 +104,64 @@ Window {
                 }
             }
 
-            Item {
+            Rectangle {
                 id: menuframe
-                property bool opened: false
-                state: "closed"
+                property bool opened: true
+                state: "opened"
+                color: Style.sidebarBackground
 
                 anchors {
                     left: mainframe.left
                     top: mainframe.top; bottom: mainframe.bottom
                 }
-                Rectangle {
-                    id: menu_bg
-                    anchors.fill: parent
-                }
 
+                Column {
+                    anchors.fill: parent
+                    anchors.topMargin: Style.spacingMedium
+                    spacing: Style.spacingSmall
+
+                    Repeater {
+                        model: [
+                            { text: "Input", icon: "../assets/svg/plus.svg", page: inputPageComponent, index: 0 },
+                            { text: "Queries", icon: "../assets/svg/search.svg", page: queryGenerationPageComponent, index: 1 },
+                            { text: "Corpus", icon: "../assets/svg/database.svg", page: corpusSelectionPageComponent, index: 2 },
+                            { text: "Search", icon: "../assets/svg/search.svg", page: searchRetrievalPageComponent, index: 3 },
+                            { text: "Screening", icon: "../assets/svg/screening.svg", page: articleScreeningPageComponent, index: 4 },
+                            { text: "Review", icon: "../assets/svg/review.svg", page: reviewGenerationPageComponent, index: 5 },
+                            { text: "Export", icon: "../assets/svg/export.svg", page: editorExportPageComponent, index: 6 }
+                        ]
+
+                        delegate: Rectangle {
+                            width: menuframe.width - 20
+                            height: 40
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            color: (rightframe.depth > modelData.index) ? Style.accent : "transparent"
+                            radius: Style.radiusSmall
+                            opacity: (rightframe.depth > modelData.index) ? 1.0 : 0.6
+
+                            Row {
+                                anchors.fill: parent
+                                anchors.leftMargin: 10
+                                spacing: 10
+
+                                Image {
+                                    source: modelData.icon
+                                    width: 20; height: 20
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+
+                                Text {
+                                    text: modelData.text
+                                    color: Style.text
+                                    font.family: Style.fontFamily
+                                    font.pixelSize: Style.fontBody
+                                    visible: menuframe.state === "opened"
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+                            }
+                        }
+                    }
+                }
 
                 states:[
                     State {
@@ -149,20 +170,12 @@ Window {
                             target: menuframe
                             width: 60
                         }
-                        PropertyChanges {
-                            target: menu_bg
-                            color: "transparent"
-                        }
                     },
                     State {
                         name: "opened"
                         PropertyChanges {
                             target: menuframe
-                            width: 150
-                        }
-                        PropertyChanges {
-                            target: menu_bg
-                            color: "#303090"
+                            width: 200
                         }
                     }
                 ]
@@ -172,14 +185,8 @@ Window {
                         NumberAnimation {
                             target: menuframe
                             property: "width"
-                            duration: 500
-                            easing.type: Easing.Linear
-                        }
-
-                        ColorAnimation {
-                            duration: 500
-                            target: menu_bg
-                            property: "color"
+                            duration: 300
+                            easing.type: Easing.InOutQuad
                         }
                     }
                 ]

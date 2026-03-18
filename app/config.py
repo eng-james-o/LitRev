@@ -16,6 +16,7 @@ DEFAULT_CONFIG = {
     "model": "gpt-4o",
     "max_tokens": 4000,
     "temperature": 0.7,
+    "user_email": "james.o.oluwadare@gmail.com",
     "publication_databases": [
         {"name": "arXiv", "enabled": True, "url": "https://arxiv.org/search/"},
         {"name": "PubMed", "enabled": True, "url": "https://pubmed.ncbi.nlm.nih.gov/"},

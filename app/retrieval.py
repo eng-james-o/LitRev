@@ -23,7 +23,7 @@ class ArticleRetriever:
 
     def __init__(self, config_manager):
         self.config_manager = config_manager
-        self.user_email = self.config_manager.config.get("user_email", "your-email@example.com")
+        self.user_email = self.config_manager.config.get("user_email", "james.o.oluwadare@gmail.com")
         self.headers = {
             "User-Agent": f"AutoLitRev/1.0 (mailto:{self.user_email})"
         }

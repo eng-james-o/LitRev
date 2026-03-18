@@ -5,9 +5,9 @@ Based on the roadmap in README.md, here are the next steps for implementation:
 ## Article Retrieval
 
 - [/] Implement multi-source article retrieval
-    - [x] Implement ArXiv API integration
-    - [x] Implement PubMed API integration
-    - [ ] Implement CrossRef API integration
+  - [x] Implement ArXiv API integration
+  - [x] Implement PubMed API integration
+  - [ ] Implement CrossRef API integration
 - [ ] Implement actual API calls for `app/retrieval.py`
 - [ ] Add support for checking open access versions
 
